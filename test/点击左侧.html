@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<a href="javascript:" onclick="result(0);">菜单一</a>
+
+<a href="javascript:" onclick="result(1);">菜单二</a>
+
+<div id="a0">这里是文字</div>
+<div id="a1" style="display:none;">这里是图片，自己写上</div>
+<body>
+<script type="text/javascript">
+    function $(d){return document.getElementById(d)};
+    var x=0;
+    function  result(y){
+        $("a"+x).style.display="none";
+        $("a"+y).style.display="";
+        x=y;
+    }
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<title>Document</title>
+		<style>
+			ul{
+				width: auto;
+				height: auto;
+			}
+				li {
+					list-style: none;
+					margin-left: 5px;
+					text-align: center;
+				}
+				
+				li>a {
+					border-top-left-radius: 3px;
+					border-top-right-radius: 3px;
+					display: block;
+					background: #ededed;
+					width: 100px;
+					height: 30px;
+					line-height: 30px;
+					border: 1px solid #d3d3d3;
+				}
+				li>a:hover{
+					border: 1px solid #AAAAAA;
+					background: #dadada;
+					cursor: pointer;
+				}
+				li {
+					float: left;
+				}
+				#div1 {}
+				#div2 {
+					clear: both;
+				}
+				#div3 {
+					clear: both;
+					overflow: hidden;
+				}
+				.now{
+					background: white !important;
+					border: 1px solid #aaaaaa;
+				}
+				#div1 ul li a span{
+					cursor: pointer;
+				}
+				iframe{
+					width: 90%;
+					height: 300px;
+				}
+		</style>
+	</head>
+
+	<body>
+		<div id="div1">
+			<ul class="uu"></ul>
+		</div>
+		<div id="div2">
+			<a href="A.html">一号</a>
+			<a href="B.html">二号</a>
+			<a href="C.html">三号</a>
+			<a href="D.html">四号</a>
+			<a href="E.html">五号</a>
+			<a href="F.html">六号</a>
+			<a href="G.html">七号</a>
+			<a href="H.html">八号</a>
+			<a href="H.html">9号</a>
+			<a href="H.html">10号</a>
+			<a href="H.html">11号</a>
+		</div>
+		<div id="div3"></div>
+	</body>
+	<script type="text/javascript" src="js/jquery-1.11.0.js"></script>
+	<script>
+		$(function() {
+			var click = $('#div2 a');
+			function add(Name) {
+				var add_ifame = $('<iframe name="'+name+'" src="#"></iframe>');
+				var add_li = $('<li><a class="now"><span>' + Name + '</span><span>×</span></a></li>');
+				$('#div3 iframe').hide();
+				$('.uu').append(add_li);
+				$('#div3').append(add_ifame);
+			}
+			click.click(function() {
+				var texts = $(this).text();
+				var show1a = $('#div1 ul li a span:first-child');
+				var nowgeshu = $('.uu li').length;
+				for (var i = 0; i < show1a.length; i++) {
+					if (show1a.eq(i).text() == texts) {
+						$('#div3 iframe').hide().eq(i).show();  //点击div2出来相应 div3数据
+						$("#div1 ul li a").removeClass('now').parent().siblings().children().eq(i).addClass('now')//div1背景颜色样式
+					return false;
+					}
+				}
+				if (nowgeshu < 8) {
+					$(this).attr('target', texts);
+					$('.uu li a').removeClass('now');
+					add(texts); //添加数量不到8个时  可添加div3
+				} else if (nowgeshu == 8) {
+					alert('您已打开了8个标签。请关闭部分标签后再打开新标签！');
+					return false;
+				}
+			})
+			//关闭
+			$('#div1').on('click','ul li a span:last-child',function(event){
+				if($(this).parent().hasClass('now')){
+					$('#div1 ul li a').eq($('#div1 ul li').length-2).addClass('now');
+				}
+				var index = $('#div1 ul li').index($(this).parent().parent());
+				$(this).parent().parent().remove();
+				$('#div3 iframe').eq(index).remove();
+				if($('#div3 iframe:visible').length==0){
+					$('#div3 iframe:last-child').show();
+				}
+				event.stopPropagation();//阻止事件传播
+			})
+			$('#div1').on('click','ul li a',function(){
+				if($(this).hasClass('now')){
+					return false;
+				}else{
+				console.log(this)
+
+				$(this).addClass('now').parent().siblings().children().removeClass('now');//div1背景颜色样式
+				     var index = $('#div1 ul li').index($(this).parent());
+
+					 $('#div3 iframe').hide().eq(index).show();  //点击div1出来相应 div3数据
+				}
+			})
+		})
+	</script>
+
+</html>

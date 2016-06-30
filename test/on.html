@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+
+</head>
+<body>
+<script>
+
+    function request(paras) {
+        var  url="http://localhost:63342/h5/lottery/lottery.html?employeeID=longcHi&storeID=1234567890"
+        var paraString = url.substring(url.indexOf("?") + 1, url.length).split("&");
+        var paraObj = {}
+        for (i = 0; j = paraString[i]; i++) {
+            paraObj[j.substring(0, j.indexOf("=")).toLowerCase()] = j.substring(j.indexOf("=") + 1, j.length);
+        }
+        var returnValue = paraObj[paras.toLowerCase()];
+        if (typeof (returnValue) == "undefined") {
+            return "";
+        } else {
+            return returnValue;
+        }
+    }
+    var req=request("employeeID");
+    var req2=request("storeID").substring(8,0);
+    console.log(req,req2)
+
+
+
+
+     /*   // var url = location.search; //获取url中"?"符后的字串
+                var url ="www.baidu.com?user=longchi?age=19";
+                if (url.indexOf("?") != -1) {    //判断是否有参数
+                    var str = url.substr(1); //从第一个字符开始 因为第0个是?号 获取所有除问号的所有符串
+                    strs = str.split("=");   //用等号进行分隔 （因为知道只有一个参数 所以直接用等号进分隔 如果有多个参数 要用&号分隔 再用等号进行分隔）
+                    var result= strs[1];
+                    console.log(result);          //直接弹出第一个参数 （如果有多个参数 还要进行循环的）
+                }
+    *!/
+
+
+
+/!*var url="http://kbs.sports.qq.com/kbsweb/game.htm?mid=100000&cid=1467086&app=1.0";
+var reg=url.split("?")[1].replace(/=/g,":").replace(/&/g,",");//通过split把“?”分割字符串,获取下标为1，把“=”替换成“: ”把&替换成“，”
+console.log(reg);*!/*/
+</script>
+
+</body>
+</html>

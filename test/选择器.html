@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style type="text/css">
+        body, div, table, thead, tbody, th, tr, td, h2, h1 {
+            margin: 0;
+            padding: 0;
+            font-size: 14px;
+            font-family: "\5FAE\8F6F\96C5\9ED1", Helvetica, sans-serif;
+            font-weight: normal;
+            -webkit-user-select: none;
+        }
+
+        html, body {
+            width: 100%;
+        }
+        h1 {
+            margin: 20px auto 0 auto;
+            width: 93%;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        #box {
+            margin: 10px auto;
+            padding: 0 20px 30px 20px;
+            width: 90%;
+            border: 1px solid #0fb200;
+            border-radius: 40px;
+            background: #fcf0b5;
+        }
+
+        h2 {
+            margin: 20px 0 10px 0;
+            font-size: 16px;
+            color: #ff3333;
+            height: 35px;
+            line-height: 35px;
+        }
+
+        .tab {
+            width: 100%;
+            border-bottom: 1px solid #ddd;
+            border-right: 1px solid #ddd;
+
+        }
+
+        .tab th, .tab td {
+            width: 14%;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            border: 1px solid #ddd;
+            border-bottom: none;
+            border-right: none;
+
+        }
+
+        .tab th {
+            color: #0fb200;
+        }
+
+        .tab th.first {
+            width: 23%;
+        }
+
+        .tab td.red {
+            font-weight: bold;
+            color: #ff3333;
+        }
+    </style>
+</head>
+<body>
+<h1>珠峰培训CSS/CSS3常用选择器一览表</h1>
+
+<div id="box"></div>
+<script type="text/javascript" src="database.js"></script>
+<script type="text/javascript">
+    window.onload = function () {
+        var oBox = document.getElementById("box");
+        var str = "";
+        for (var i = 0; i < data.length; i++) {
+            var cur = data[i];
+            str += "<h2>" + (i + 1) + "、" + cur.title + "</h2>";
+            str += "<table cellpadding='0' cellspacing='0' class='tab'>";
+            str += "<thead><tr><th class='first'>选择器</th><th>IE</th><th>firefox</th><th>chrome</th><th>opera</th><th>safari</th></tr></thead>";
+            str += "<tbody>";
+            for (var k = 0; k < cur.child.length; k++) {
+                var curChild = cur.child[k];
+                str += "<tr>";
+                var temp = 0;
+                for (var key in curChild) {
+                    temp++;
+                    /*      var tempC = temp > 1 && curChild[key] !== "ok" ? "red" : null;*/
+                    var tempC = curChild[key];
+                       str += "<td class='" + tempC + "'>" + tempC + "</td>";
+                  /*  str += "<td>" + tempC + "</td>";*/
+                }
+                str += "</tr>"
+            }
+            str += "</tbody>"
+            str += "</table>";
+        }
+        oBox.innerHTML = str;
+    };
+</script>
+
+</body>
+</html>

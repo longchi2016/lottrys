@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<script src="jquery-1.7.2.min.js"></script>
+<body>
+<div class='out'>
+    <div class='other1'>a</div>
+    <div class='in'>b</div>
+    <div class='other2'>c</div>
+    <div class='other3'>d</div>
+</div>
+
+<a href="">sss</a>
+</body>
+<script>
+
+     $('.in').siblings().remove();
+     $(".in").click(function(){
+        $('.in').after("a").removeAll();
+
+     })
+</script>
+</html>

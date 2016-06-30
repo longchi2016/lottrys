@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no" >
+	<title>幸运大转盘</title>
+
+	<link href="css/style.css" rel="stylesheet" type="text/css">
+
+	<script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+	<script type="text/javascript" src="js/awardRotate.js"></script>
+</head>
+<body>
+	<div class="result">
+		<img src="images/close.png" class="rule_close">
+		<img src="images/close.png" class="result_close">
+
+	</div>
+	<div class="result_box">
+		<img src="images/result.png" class="result_img">
+
+		<div class="award">
+			<span></span><img src="images/iphone.png"><br>
+		</div>
+        <p class="award_txt">获得奖品：<br>iphone1台1111</p>
+	</div>
+		<div class="rule_box">
+	<!--	<img src="./images/rule.png" class="rule_img">-->
+
+		<p class="rule_txt">
+			<p>一、活动时间：2015年4月13日-2015年6月30日。</p>
+			<p>二、幸运大抽奖：<br />
+				活动期间，承保日期在2015年4月13日-2015年6月30日的电销电子保单，每张电子保单客户可获得1次抽奖机会。</p>
+			<p>三、奖品：50元电话充值卡一张</p>
+			<p>四、抽奖步骤及兑奖条件：<br />
+			<p>1、抽奖步骤：请您输入“投保人姓名”“保单号码”“投保人证件号码”“客户手机号码”四项抽奖人信息，并保证与您投保时的信息一致。</p>
+			<p>2、兑奖条件：在2015年7月15日前，中奖客户的电子保单需过10天的犹豫期方可参与兑奖。</p>
+			<p>3、对于符合兑奖条件的客户，我公司将通过运营商把50元话费充值到中奖客户登记的手机。</p>
+			<p>6、阳光保险保留修改本活动条款、延迟或提前终止本次活动以及更换同等价值礼品将在网站进行公示，并在法律允许的范围内保留对本活动的解释权。</p>
+		</p>
+	</div>
+	<div class="cloud1"></div>
+	<div class="cloud2"></div>
+	<div class="cloud3"></div>
+	<div class="share_pic"></div>
+	<div class="activity_title">
+		<img src="images/title.png" class="title">
+		<p>2015年4月13日-2015年6月30日</p>
+		<a class="check_rule">查看规则</a>
+	</div>
+	<img src="images/iphone2.png" id="iphone-img" style="display:none;" />
+	<img src="images/2.png" id="sorry-img" style="display:none;" />
+	<div class="banner">
+		<div class="turnplate" style="background-image:url(images/circle.png);background-position:50% 50%;">
+			<img src="images/bottom.png" class="bottom" id="bottom">
+			<canvas class="item" id="wheelcanvas" width="422px" height="422px"></canvas> 
+			<img class="pointer" src="images/pointer.png" id="pointer"/>
+			<canvas class="pointer2" width="200px" height="424px" id="pointer2"></canvas>
+			 <p>你还有<span>2</span>次抽奖机会</p>
+		</div>
+	</div>
+	<div class="grass">
+		<a class="award_record">奖品记录</a>
+		<a class="share_btn">我要分享</a>
+	</div>
+	<script type="text/javascript">
+		/*摩天轮样式*/
+		var canvasWidth = document.getElementsByClassName("item")[0].offsetWidth;
+		document.getElementsByClassName("turnplate")[0].style.height = parseInt(canvasWidth)+"px";
+		document.getElementsByClassName("turnplate")[0].style["background-size"] = parseInt(canvasWidth*0.8)+"px "+parseInt(canvasWidth*0.8)+"px";
+		document.getElementsByClassName("bottom")[0].style.width = parseInt(canvasWidth)-150+"px";
+		document.getElementsByClassName("bottom")[0].style["margin-left"] = -(parseInt(canvasWidth)-150)/2+"px";
+		document.getElementsByClassName("banner")[0].style["margin-top"] = -parseInt(canvasWidth)/2+"px"
+		document.getElementsByClassName("banner")[0].style["margin-left"] = -parseInt(canvasWidth)/2+"px"
+		document.getElementsByClassName("banner")[0].style.height = parseInt(canvasWidth+100)+"px"
+		/*结果浮层*/
+		document.getElementsByClassName("result_close")[0].onclick = closeResult;
+		document.getElementsByClassName("rule_close")[0].onclick = closeRule;
+		document.getElementsByClassName("share_btn")[0].onclick = showShare;
+		document.getElementsByClassName("share_pic")[0].onclick = closeShare;
+		document.getElementsByClassName("check_rule")[0].onclick = showRule;
+		function closeResult(){
+			btn=null;
+			document.getElementsByClassName("result")[0].style.display = "none";
+			document.getElementsByClassName("result_box")[0].style.display = "none";
+			document.getElementsByClassName("rule_box")[0].style.display = "none";
+			document.getElementsByClassName("award")[0].style.display = "block";
+		};
+		function showShare(){
+			document.getElementsByClassName("share_pic")[0].style.display = "block";
+		};
+		function closeShare(){
+			document.getElementsByClassName("share_pic")[0].style.display = "none";
+		};
+		/*规则*/
+		function showRule(){
+			document.getElementsByClassName("result")[0].style.display = "block";
+			document.getElementsByClassName("rule_box")[0].style.display = "block";
+		};
+		function closeRule(){
+			document.getElementsByClassName("result")[0].style.display = "none";
+		    document.getElementsByClassName("rule_box")[0].style.display = "none";
+		}
+	</script>
+	<script type="text/javascript">
+	var turnplate={
+			restaraunts:[],				//大转盘奖品名称
+			colors:[],					//大转盘奖品区块对应背景颜色
+			outsideRadius:125,			//大转盘外圆的半径
+			textRadius:90,				//大转盘奖品位置距离圆心的距离
+			insideRadius:20,			//大转盘内圆的半径
+			startAngle:0,				//开始角度
+			
+			bRotate:false				//false:停止;ture:旋转
+	};
+
+	$(document).ready(function(){
+		//动态添加大转盘的奖品与奖品区域背景颜色
+		turnplate.restaraunts = ["iphone", "谢谢参与", "iphone", "谢谢参与","iphone", "谢谢参与"];
+		turnplate.colors = ["#fcc0bc", "#FFFFFF", "#fcc0bc", "#FFFFFF","#fcc0bc", "#FFFFFF", "#fcc0bc", "#FFFFFF"];
+
+		
+		var rotateTimeOut = function (){
+			$('#wheelcanvas').rotate({
+				angle:0,
+				animateTo:2160,
+				duration:8000,
+				callback:function (){
+					alert('网络超时，请检查您的网络设置！');
+				}
+			});
+		};
+		var btn=$("<input type='button' id='testBtn' value='确定'>");
+		//旋转转盘 item:奖品位置; txt：提示语;
+		var rotateFn = function (item, txt){
+			var str="立即领取>";
+			var angles = item * (360 / turnplate.restaraunts.length) - (360 / (turnplate.restaraunts.length*2));
+			if(angles<270){
+				angles = 270 - angles; 
+			}else{
+				angles = 360 - angles + 270;
+			}
+			$('#wheelcanvas').stopRotate();
+			$('#wheelcanvas').rotate({
+				angle:0,
+				animateTo:angles+1800,
+				duration:8000,
+				callback:function (){
+
+					//var box_award_txt=document.getElementsByClassName("box_award_txt");
+					document.getElementsByClassName("result")[0].style.display = "block";
+					if(txt=='谢谢参与'){
+						document.getElementsByClassName("result_box")[0].style.display = "block";
+						document.getElementsByClassName("award")[0].style.display = "none";
+						document.getElementsByClassName("award_txt")[0].innerHTML = txt;
+						$("#testBtn").hide();
+						alert("aa");
+					}else{
+						document.getElementsByClassName("result_box")[0].style.display = "block";
+						document.getElementsByClassName("award_txt")[0].innerHTML = txt;
+				/*		box_award_txt.innerHTML=str; //创建“马上领取”按钮*/
+							$(".result").append(btn);
+							addBtnEvent("testBtn");
+						   $("#testBtn").show();
+						    alert("bb");
+						    function addBtnEvent(id){
+							$("#"+id).bind("click",function(){
+								btn=null;
+								window.location.href="a.html";
+								// alert("<a href='a.html'>");
+							});
+						}
+					}
+
+					/*alert(txt);*/
+					turnplate.bRotate = !turnplate.bRotate;
+				}
+			});
+		};
+
+		$('.pointer2').click(function (){
+			if(turnplate.bRotate)return;
+			turnplate.bRotate = !turnplate.bRotate;
+			//获取随机数(奖品个数范围内)
+			var item = rnd(1,turnplate.restaraunts.length);
+			//奖品数量等于10,指针落在对应奖品区域的中心角度[252, 216, 180, 144, 108, 72, 36, 360, 324, 288]
+			if(turnplate.restaraunts[item-1]=="谢谢参与"){
+				rotateFn(item,"谢谢参与");
+				/* switch (item) {
+					case 1:
+						rotateFn(252, turnplate.restaraunts[0]);
+						break;
+					case 2:
+						rotateFn(216, turnplate.restaraunts[1]);
+						break;
+					case 3:
+						rotateFn(180, turnplate.restaraunts[2]);
+						break;
+					case 4:
+						rotateFn(144, turnplate.restaraunts[3]);
+						break;
+					case 5:
+						rotateFn(108, turnplate.restaraunts[4]);
+						break;
+					case 6:
+						rotateFn(72, turnplate.restaraunts[5]);
+						break;
+					case 7:
+						rotateFn(36, turnplate.restaraunts[6]);
+						break;
+					case 8:
+						rotateFn(360, turnplate.restaraunts[7]);
+						break;
+					case 9:
+						rotateFn(324, turnplate.restaraunts[8]);
+						break;
+					case 10:
+						rotateFn(288, turnplate.restaraunts[9]);
+						break;
+				} */
+			}else{
+				rotateFn(item,"获得:<br>"+turnplate.restaraunts[item-1]);
+			}
+			console.log(item);
+		});
+	});
+
+	function rnd(n, m){
+		var random = Math.floor(Math.random()*(m-n+1)+n);
+		return random;
+		
+	}
+
+
+	//页面所有元素加载完毕后执行drawRouletteWheel()方法对转盘进行渲染
+	window.onload=function(){
+		drawRouletteWheel();
+		drawPointer();
+	};
+
+	function drawRouletteWheel() {    
+	  var canvas = document.getElementById("wheelcanvas");    
+	  if (canvas.getContext) {
+		  //根据奖品个数计算圆周角度
+		  var arc = Math.PI / (turnplate.restaraunts.length/2);
+		  var ctx = canvas.getContext("2d");
+		  //在给定矩形内清空一个矩形
+		  ctx.clearRect(0,0,422,422);
+		  //strokeStyle 属性设置或返回用于笔触的颜色、渐变或模式  
+		  ctx.strokeStyle = "#FFFFFF";
+		  ctx.lineWidth = 1;
+		  //font 属性设置或返回画布上文本内容的当前字体属性
+		  ctx.font = '14px Microsoft YaHei';      
+		  for(var i = 0; i < turnplate.restaraunts.length; i++) {       
+			  var angle = turnplate.startAngle + i * arc;
+			  ctx.fillStyle = turnplate.colors[i];
+			  ctx.beginPath();
+			  //arc(x,y,r,起始角,结束角,绘制方向) 方法创建弧/曲线（用于创建圆或部分圆）    
+			  ctx.arc(211, 211, turnplate.outsideRadius, angle, angle + arc, false);    
+			  ctx.arc(211, 211, turnplate.insideRadius, angle + arc, angle, true);
+			  ctx.stroke();  
+			  ctx.fill();
+			  //锁画布(为了保存之前的画布状态)
+			  ctx.save();   
+			  
+			  //----绘制奖品开始----
+			  ctx.fillStyle = "#e6847c";
+			  var text = turnplate.restaraunts[i];
+			  var line_height = 17;
+			  //translate方法重新映射画布上的 (0,0) 位置
+			  ctx.translate(211 + Math.cos(angle + arc / 2) * turnplate.textRadius, 211 + Math.sin(angle + arc / 2) * turnplate.textRadius);
+			  
+			  //rotate方法旋转当前的绘图
+			  ctx.rotate(angle + arc / 2 + Math.PI / 2);
+			  
+			  /** 下面代码根据奖品类型、奖品名称长度渲染不同效果，如字体、颜色、图片效果。(具体根据实际情况改变) **/
+			  if(text.indexOf("M")>0){//流量包
+				  var texts = text.split("M");
+				  for(var j = 0; j<texts.length; j++){
+					  ctx.font = '14px Microsoft YaHei';
+					  if(j == 0){
+						  ctx.fillText(texts[j]+"M", -ctx.measureText(texts[j]+"M").width / 2, j * line_height);
+					  }else{
+						  ctx.fillText(texts[j], -ctx.measureText(texts[j]).width / 2, j * line_height);
+					  }
+				  }
+			  }else if(text.indexOf("M") == -1 && text.length>6){//奖品名称长度超过一定范围 
+				  text = text.substring(0,6)+"||"+text.substring(6);
+				  var texts = text.split("||");
+				  for(var j = 0; j<texts.length; j++){
+					  ctx.fillText(texts[j], -ctx.measureText(texts[j]).width / 2, j * line_height);
+				  }
+			  }else{
+				  //在画布上绘制填色的文本。文本的默认颜色是黑色
+				  //measureText()方法返回包含一个对象，该对象包含以像素计的指定字体宽度
+				  ctx.fillText(text, -ctx.measureText(text).width / 2, 0);
+			  }
+			  //添加对应图标
+			  if(text.indexOf("iphone")>=0){
+				  var img= document.getElementById("iphone-img");
+				  img.onload=function(){  
+					  ctx.drawImage(img,-15,10);      
+				  }; 
+				  ctx.drawImage(img,-15,10);  
+			  }else if(text.indexOf("谢谢参与")>=0){
+				  var img= document.getElementById("sorry-img");
+				  img.onload=function(){  
+					  ctx.drawImage(img,-15,10);      
+				  };  
+				  ctx.drawImage(img,-15,10);  
+			  }
+			  //把当前画布返回（调整）到上一个save()状态之前 
+			  ctx.restore();
+			  //----绘制奖品结束----
+		  }     
+	  } 
+	}
+
+	function drawPointer(){
+		var canvas = document.getElementById("pointer2");
+		var ctx = canvas.getContext("2d");
+		var img = new Image();
+		img.src = "./images/pointer.png";
+		ctx.drawImage(img,0,0);      
+	}
+	</script>
+</body>
+</html>

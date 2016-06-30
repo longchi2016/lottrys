@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>上传图片预览</title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" type="text/css" href="srdz.preview.2.0.css">
+    <script type="text/javascript" src="jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="srdz.preview.2.0.js"></script>
+    <script type="text/javascript">
+        $(function(){
+            var p = new ImgPreview();
+            p.preview({previewid:"imgupload1"});
+            p.preview({previewid:"imgupload2"});
+        });
+    </script>
+</head>
+<body>
+<div align="center" style="width: 50%;padding: 50px 300px;" id="imgupload1"></div>
+<div align="center" style="width: 50%;padding: 50px 300px;" id="imgupload2"></div>
+</body>
+</html>

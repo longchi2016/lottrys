@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+<meta content="yes" name="apple-mobile-web-app-capable"/>
+<meta content="yes" name="apple-touch-fullscreen"/>
+<meta content="telephone=no" name="format-detection"/>
+<meta content="email=no" name="format-detection"/> 
+<meta content="black" name="apple-mobile-web-app-status-bar-style">     
+<title>填写信息</title>
+<link href="layout.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="js/jQueryRotate.2.2.js"></script>
+</head>
+
+<body>
+<div class="top">
+	<img src="images/banner.png" width="100%" height="auto" />
+    <p><img src="images/star.png" /><span>2015年4月16日至2015年6月30日</span></p>
+</div>
+<div class="info_msg">
+	<span>请先填写你的保单信息获取抽奖机会吧~</span>
+    <div class="tishi">
+        <p>小提示：为了保证您能够正常抽奖，请您在下面输入与投保时一致的信息。</p>
+    </div>
+    <ul>
+        <li><label>投保人姓名：</label><input class="input_01" type="text" /></li>
+        <li><label>保单号：</label><input class="input_01" type="text" /></li>
+        <li><label>投保人证件号：</label><input class="input_01" type="text" /></li>
+        <li><label>手机号：</label><input class="input_01" type="text" /></li>
+        <li><label>验证码：</label><input class="input_01 input_02" type="text" /><div class="yanz"><img src="images/img_yz.png" /></div><a href="#">刷新</a></li>
+    </ul>
+    <a href="javascript:;" class="but_sub"><font>获取抽奖机会</font></a>
+</div>
+<div class="bottom"><a href="javascript:;">查看活动细则></a></div>
+
+<!---------------------------------------弹层---------------->
+<div class="tanceng">
+	<div class="bg_hui"></div>
+    <div class="t_tan">
+    	<a class="close"></a>
+		<h3>幸运大抽奖</h3>
+        <div class="p_div">
+         <!-------如果下面提示文字比较少就让文字居中----------
+        <p class="p_center"><span id="resultTxt">亲，活动还未开始，请耐心等待~</span></p>
+                ----->
+        <p><span id="resultTxt">您输入信息有误，请核对信息，投保人姓名、保单号码、投保人证件号码、手机号码，需与您投保时的信息保持一致。本日您还有<em>X</em>次机会哦~</span></p>
+        </div>
+        <a class="sure">确定</a>
+    </div>
+    
+</div>
+
+</body>
+<script>
+function resizing() {
+	 if($(window).height() <=568) {
+        $(".bottom").css("position","relative");
+		$(".info_msg").css("margin-bottom","1.8rem")
+    }else{
+		$(".bottom").css("position","fixed");
+		$(".info_msg").css("margin-bottom","5.8rem")}
+	}
+$(function() {
+    resizing();
+$(window).resize(resizing);
+/*重新调整窗口大小事件的同时调用resizing()函数*/
+});
+
+/*--------------------------------弹层--------------------------------------*/
+$(".close").click(function(){
+	$(this).parents().parents(".tanceng").hide();
+	})
+$(".sure").click(function(){
+	$(this).parents().parents(".tanceng").hide();
+	})
+$(".but_sub").click(function(){
+	$(".tanceng").show();
+	})
+
+</script>
+
+</html>

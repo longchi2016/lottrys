@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+<meta content="yes" name="apple-mobile-web-app-capable"/>
+<meta content="yes" name="apple-touch-fullscreen"/>
+<meta content="telephone=no" name="format-detection"/>
+<meta content="email=no" name="format-detection"/> 
+<meta content="black" name="apple-mobile-web-app-status-bar-style">     
+<title>活动细则</title>
+<link href="css/layout.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="js/jQueryRotate.2.2.js"></script>
+</head>
+<body>
+<div class="top">
+    <a href="javascript:window.close()">×</a>
+	<img src="images/banner.png" width="100%" height="auto" />
+    <p><img src="images/star.png" /><span>活动规则如下，请仔细阅读！</span></p>
+</div>
+<div class="info_xz">
+	<div class="title_h">活动详细规则</div>
+    <p><span>一、活动时间：</span>2016下半年。</p>
+    <p><span>二、抽奖条件：</span></p>
+    <p>活动期间，当客户经理通过展业APP完成保单提交后，便可获抽奖机会1次。如获得抽奖机会未抽者（页面已关），需重新提交新的保单后才能获取上次未抽机会，次数依次累加。</p>
+    <p><span>三、奖品：</span></p>
+    <p>①平板电脑1台。②5元现金一份。③2元现金一份。</p>
+    <p><span>四、抽奖步骤、兑奖条件及活动申明：</span></p>
+     <p>①抽奖步骤：活动期间，通过展业APP提交保单成功后，点击“去抽奖”按钮进入抽奖大厅。</p>
+     <p>②兑奖条件：活动期间，如抽中实物，稍后由总部统一发放；如抽中现金，所获金额将随同工资一起发放。</p>
+    <p>③活动申明：阳光保险保留修改本活动条款、延迟或提前终止本次活动以及更换同等价值礼品将在网站进行公示，并在法律允许的范围内保留对本活动的解释权。</p>
+</div>
+<!--<div class="bottom"><a href="lottery_bak.html">返回抽奖大厅></a></div>-->
+<!--<div class="bottom1"><input type="button" name="button1" id="button1" value="返回" onclick="history.go(-1)"></div>-->
+<div class="bottom"><a onclick="javascript:history.go(-1)">返回抽奖大厅></a></div>
+
+<!-----------改文字
+<div class="bottom"><a href="#">返回抽奖></a></div>
+//onclick="history.go(-1);return true;"
+-------------->
+</body>
+<script>
+    function resizing() {
+    //处理iphone5以及其他高度更短屏的手机
+    if ($(window).height() <= 568) {
+        $(".content .zhuan img").css({"height": "20rem", "width": "20rem"});
+        $(".content .zhuan .go").css({"left": "41%", "top": "3rem"});
+        $(".content .zhuan .tyuan").css("left", "41%");
+    }
+}
+$(function() {
+    resizing();
+$(window).resize(resizing);
+/*重新调整窗口大小事件的同时调用resizing()函数*/
+});
+</script>
+
+</html>

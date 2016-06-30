@@ -1,0 +1,200 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+    <meta content="yes" name="apple-mobile-web-app-capable"/>
+    <meta content="yes" name="apple-touch-fullscreen"/>
+    <meta content="telephone=no" name="format-detection"/>
+    <meta content="email=no" name="format-detection"/>
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <title>移动抽奖</title>
+    <link href="css/layout.css" rel="stylesheet" type="text/css"/>
+    <script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="js/jQueryRotate.2.2.js"></script>
+
+</head>
+
+<body>
+<div class="top">
+    <a href="javascript:window.close();">×</a>
+    <img src="images/banner.png" width="100%" height="auto"/>
+    <p><img src="images/star.png"/><span>2016下半年抽奖！行动起来！</span></p>
+</div>
+<div class="content">
+    <p>您有<span id="lottery"></span> 次抽奖机会，赶快抽奖吧！</p>
+
+    <div class="zhuan">
+        <div class="zhuan_img"><img id="imgs" src="images/z_img.png"/></div>
+        <div class="go" onclick=""></div>
+        <div class="tyuan"></div>
+    </div>
+</div>
+
+<div class="bottom"><a href="rule.html">查看活动细则></a></div>
+<!---------------------------------------弹层---------------->
+<div class="tanceng" id="result">
+    <div class="bg_hui"></div>
+    <div class="t_tan">
+        <a class="close"></a>
+        <h3>幸运大抽奖</h3>
+        <div class="p_div">
+            <!-------如果下面提示文字比较少就让文字居中----------
+           <p class="p_center"><span id="resultTxt">亲，活动还未开始，请耐心等待~</span></p>
+                   ----->
+            <p><span id="resultTxt"></span></p>
+        </div>
+        <a class="sure">确定</a>
+    </div>
+
+</div>
+
+</body>
+<script>
+    /*---------------------------------------------大转盘---------------------*/
+    $(function () {
+        var $go = $('#imgs');
+        var $result = $('#result');
+        var $resultTxt = $('#resultTxt');
+        //请求
+        function rquestData() {
+            //通过url来获取用户id和门面id
+            function request(paras) {
+                //  var url = "http://localhost:63342/h5/lottery/lottery.html?employeeID=longcHi&storeID=1234567890";//
+                var url = window.location;
+                var url1=JSON.stringify(url)
+                var paraString = url1.substring(url1.indexOf("?") + 1, url1.length).split("&");
+                var paraObj = {}
+                for (i = 0; j = paraString[i]; i++) {
+                    paraObj[j.substring(0, j.indexOf("=")).toLowerCase()] = j.substring(j.indexOf("=") + 1, j.length);
+                }
+                var returnValue = paraObj[paras.toLowerCase()];
+                if (typeof (returnValue) == "undefined") {
+                    return "";
+                } else {
+                    return returnValue;
+                }
+            }
+            var req = request("employeeID");
+            var req1 = request("storeID").substring(8, 0);
+
+            alert(req);
+            alert(req1);
+            //是否有资格及抽奖次数
+            function  resultNum(){
+            $.ajax({
+                //url: '/lottery/toLottery.do', // ajax提交路径
+                url: 'data/gift.json', // ajax提交路径
+                type: 'post', // 提交方式
+                async: true,
+                data: {employeeID: req}, // 提交参数*/
+                success: function (data) {
+                    var resultNum = data[0].result;
+                    //是否可以抽奖
+                    if (resultNum == 0) {// /*1：没有抽奖机会，0：有抽奖*/
+                        alert('您本次抽奖机会已用完！');
+                        return false;
+                    }
+                    //抽奖次数
+                    var lottery = document.getElementById("lottery");//获取次数元素span
+                    lottery.innerHTML = resultNum;//前台显示抽奖次数
+                    /*   //时时同步抽奖剩余次数,延迟5s同步
+                     setTimeout(function a(){
+                     var lottery = document.getElementById("lottery");//获取次数元素span
+                     lottery.innerHTML = result1;//前台显示抽奖次数
+                     return result1;
+                     },5000);*/
+                  return resultNum;
+                },
+                error: function (err) {
+                    console.log("请求错误！")
+                }
+            });
+            }
+           resultNum();
+
+            //抽奖
+            //点击立即抽奖按钮
+            $('.go').click(function () {
+                $.ajax({
+                    // url: '/lottery/lottery.do', // ajax提交路径
+                    url: 'data/gift.json', // ajax提交路径
+                    type: 'post', // 提交方式
+                    async: true,
+                    data: {employeeID: req, storeID: req1}, // 提交参数
+                    success: function (data) {
+                            var giftName = data[0].gift.giftName;//获取奖品名称
+                            //判断奖品名称及提示获奖产品内容
+                            switch (giftName) {
+                                case "2RMB":
+                                    rotateFunc("2RMB", 30, '恭喜您，获得了2元现金奖励，所获奖励将随同工资一起发放，请继续加油！');
+                                    break;
+                                case "again":
+                                    rotateFunc("again", 90, '恭喜您，获得了再次抽奖的机会，请继续进行抽奖！');
+                                    break;
+                                case "5RMB":
+                                    rotateFunc("5RMB", 150, '恭喜您，获得了5元现金奖励，所获奖励将随同工资一起发放，请继续加油！');
+                                    break;
+                                case "byebye":
+                                    rotateFunc("byebye", 210, '感谢您的参与，请继续加油！');
+                                    break;
+                                case "PAD":
+                                    rotateFunc("PAD", 270, '恭喜您，获得了平板电脑1台，实物稍后由总部统一发放，请继续加油！');
+                                    break;
+                                case "again":
+                                    rotateFunc("again", 330, '恭喜您，获得了再次抽奖的机会，请继续进行抽奖！');
+                                    break;
+                            }
+                    },
+                    error: function (err) {
+                        console.log("请求错误！")
+                    }
+                });
+            });
+            resultNum();
+        }
+        rquestData();//页面出来就执行该函数
+
+        //执行函数。awards:奖项，angle:奖项对应的角度
+        var rotateFunc = function (awards, angle, text) {
+            $go.stopRotate();
+            $go.rotate({
+                angle: 0,//指针角度
+                duration: 5000,//转动时间
+                animateTo: angle + 1440,  //angle是图片上各奖项对应的角度，1440是让指针固定旋转4圈
+                callback: function () {
+                    $resultTxt.html(text);
+                    $result.show();
+                }
+            });
+        };
+    });
+    //处理iphone5以及其他高度更短屏的手机
+    function resizing() {
+        if ($(window).height() <= 568) {
+            $(".content .zhuan img").css({"height": "20rem", "width": "20rem"});
+            $(".content .zhuan .go").css({"left": "41%", "top": "3rem"});
+            $(".content .zhuan .tyuan").css("left", "41%");
+        }
+    }
+    /*重新调整窗口大小事件的同时调用resizing()函数*/
+    $(function () {
+        resizing();
+        $(window).resize(resizing);
+    });
+
+    /*--------------------------------奖品信息弹层--------------------------------------*/
+    //点关闭来关闭
+    $(".close").click(function () {
+        $(this).parents().parents(".tanceng").hide();
+    })
+    //点确认来关闭
+    $(".sure").click(function () {
+        $(this).parents().parents(".tanceng").hide();
+    })
+
+
+</script>
+
+</html>
